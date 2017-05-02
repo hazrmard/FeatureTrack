@@ -13,7 +13,7 @@ Tested to work with:
 The environment variable `OPENCV_DIR` shout be set up to point to OpenCV libraries in your system.
 
 ## Use
-The application prints usage instructions when run without any arguments:
+The application prints usage instructions when run without any argument. It *requires* an empty directory to store sampled frames. The directory should be manually created before `FeatureTrack` is called.
 
 ```
 FeatureTrack
