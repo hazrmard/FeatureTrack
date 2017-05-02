@@ -83,6 +83,7 @@ void rectify(Mat & frame, Mat & rFrame) {
 	equalizeHist(intermediate, rFrame);
 }
 
+
 void createSamples(Args & args) {
 	string command = EXESAMPLES
 		" -vec " + args.workDir + PATHSEP VECFILE +
@@ -138,7 +139,7 @@ void trackFeatures(Args& args) {
 	if (detector.empty()) {
 		printError("Could not load classifier: " + args.featurePath);
 	}
-
+	
 	VideoCapture cap;
 	if (args.isLive) {
 		cap.open((args.videoPath.empty()) ? 0 : stoi(args.videoPath));
@@ -153,14 +154,19 @@ void trackFeatures(Args& args) {
 	Mat oFrame, frame;
 	vector<Rect> detections;
 	long int frameNum = 0;
+	double timestamp;
 	while (cap.read(oFrame)) {
+		timestamp = cap.get(CV_CAP_PROP_POS_MSEC);
 		if (frameNum % args.iSamplingRatio == 0) {
 			rectify(oFrame, frame);
 			detector.detectMultiScale(frame, detections);
+			for (Rect r : detections) {
+				cout << timestamp << "\t" << r.x << "\t" << r.y << "\t" << r.width << "\t" << r.height << endl;
+			}
 			if (args.interactive) {
 				namedWindow("FeatureTrack");
 				for (int i = 0; i < detections.size(); i++) {
-					rectangle(oFrame, detections[i], Scalar(255, 0, 0));
+					rectangle(oFrame, detections[i], Scalar(0, 255, 0), 3);
 				}
 				imshow("FeatureTrack", oFrame);
 				if (waitKey(30) == 27) {
@@ -168,6 +174,6 @@ void trackFeatures(Args& args) {
 				}
 			}
 		}
-		frameNum++;
+		frameNum++; 
 	}
 }
