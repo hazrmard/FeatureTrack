@@ -10,7 +10,9 @@ Tested to work with:
 * OpenCV 3.2
 * Visual Studio 2015 (development)
 
-The environment variable `OPENCV_DIR` shout be set up to point to OpenCV libraries in your system.
+The environment variable `OPENCV_DIR` should be set up to point to OpenCV libraries in your system (for development).
+
+The system `PATH` should include OpenCV binaries and the shipped `opencv_annotation`, `opencv_createsamples`, and `opencv_traincascade` applications.
 
 ## Use
 The application prints usage instructions when run without any argument. It *requires* an empty directory to store sampled frames. The directory should be manually created before `FeatureTrack` is called.
